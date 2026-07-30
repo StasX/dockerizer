@@ -27,7 +27,9 @@
     </ruleset-ref>
 
     <!-- Naming conventions -->
-    <ruleset-ref path="rulesets/naming.xml"/>
+    <ruleset-ref path="rulesets/naming.xml">
+        <exclude name="FactoryMethodName"/>
+    </ruleset-ref>
 
     <!-- Formatting -->
     <ruleset-ref path="rulesets/formatting.xml">
