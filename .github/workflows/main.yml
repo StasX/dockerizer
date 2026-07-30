@@ -10,7 +10,7 @@ on:
       - "config/codenarc/**"
       - "build.gradle"
       - "settings.gradle"
-      - ".github/workflows/codenarc.yml"
+      - ".github/workflows/main.yml"
 
   pull_request:
     paths:
