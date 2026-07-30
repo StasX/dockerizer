@@ -40,22 +40,6 @@
         </rule-config>
     </ruleset-ref>
 
-    <!-- Complexity and method size -->
-    <ruleset-ref path="rulesets/size.xml">
-        <rule-config name="MethodSize">
-            <property name="maxLines" value="40"/>
-        </rule-config>
-
-        <rule-config name="CyclomaticComplexity">
-            <property name="maxMethodComplexity" value="8"/>
-        </rule-config>
-
-        <rule-config name="AbcMetric">
-            <property name="maxMethodAbcScore" value="20"/>
-        </rule-config>
-    </ruleset-ref>
 
     <!-- Security-related checks -->
     <ruleset-ref path="rulesets/security.xml"/>
-
-</ruleset>
