@@ -1,13 +1,21 @@
-def build(String image, String version='latest', String envName=''){
+def build(
+    String image,
+    String version='latest',
+    String envName=''
+){
     echo 'Building docker image...'
     if(!envName){
         sh "docker build -t docker.io/${image}:${version} ."
         return 0
     }
-    sh "docker build -t docker.io/${repoOwner}/${image}:${version}-${envName} ."
+    sh "docker build -t docker.io/${image}:${version}-${envName} ."
 }
 
-def tag(String image, String version="latest", String envName=""){
+def tag(
+    String image,
+    String version="latest",
+    String envName=''
+){
     if (version == 'latest'){
         return 0
     }
@@ -34,18 +42,23 @@ def login(){
     }
 }
 
-def push(String image, String version="latest", String envName=""){
+def push(
+    String image,
+    String version='latest',
+    String envName=''
+){
     echo 'Pushing docker image to registry...'
     if(!envName){
         if (version != 'latest'){
             sh "docker push docker.io/${image}:${version}"
+            return 0
         }
         sh "docker push  docker.io/${image}:latest"
         return  0
     }
     sh """
-    docker push docker.io/${image}:${version}-${envShortName}
-    docker push  docker.io/${image}:latest-${envShortName}
+    docker push docker.io/${image}:${version}-${envName}
+    docker push  docker.io/${image}:latest-${envName}
     """
 }
               
