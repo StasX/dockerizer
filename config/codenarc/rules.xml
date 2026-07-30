@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ruleset xmlns="http://codenarc.org/ruleset/1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+             http://codenarc.org/ruleset/1.0
+             http://codenarc.org/ruleset-schema.xsd">
+
+    <description>
+        CodeNarc rules for the Dockerizer Jenkins Shared Library
+    </description>
+
+    <!-- Common programming errors -->
+    <ruleset-ref path="rulesets/basic.xml">
+        <exclude name="NoDef"/>
+    </ruleset-ref>
+
+    <!-- Exception handling -->
+    <ruleset-ref path="rulesets/exceptions.xml"/>
+
+    <!-- Unused variables, parameters and imports -->
+    <ruleset-ref path="rulesets/unused.xml"/>
+
+    <!-- Unnecessary code -->
+    <ruleset-ref path="rulesets/unnecessary.xml">
+        <exclude name="UnnecessaryReturnKeyword"/>
+    </ruleset-ref>
+
+    <!-- Naming conventions -->
+    <ruleset-ref path="rulesets/naming.xml"/>
+
+    <!-- General conventions -->
+    <ruleset-ref path="rulesets/convention.xml">
+        <exclude name="MethodReturnType"/>
+        <exclude name="FieldTypeRequired"/>
+    </ruleset-ref>
+
+    <!-- Formatting -->
+    <ruleset-ref path="rulesets/formatting.xml">
+        <rule-config name="LineLength">
+            <property name="length" value="120"/>
+        </rule-config>
+
+        <rule-config name="Indentation">
+            <property name="spacesPerIndentLevel" value="4"/>
+        </rule-config>
+    </ruleset-ref>
+
+    <!-- Complexity and method size -->
+    <ruleset-ref path="rulesets/size.xml">
+        <rule-config name="MethodSize">
+            <property name="maxLines" value="40"/>
+        </rule-config>
+
+        <rule-config name="CyclomaticComplexity">
+            <property name="maxMethodComplexity" value="8"/>
+        </rule-config>
+
+        <rule-config name="AbcComplexity">
+            <property name="maxMethodComplexity" value="20"/>
+        </rule-config>
+    </ruleset-ref>
+
+    <!-- Security-related checks -->
+    <ruleset-ref path="rulesets/security.xml"/>
+
+</ruleset>

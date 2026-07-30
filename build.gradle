@@ -1,0 +1,47 @@
+plugins {
+    id 'groovy'
+    id 'codenarc'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['vars']
+        }
+    }
+}
+
+codenarc {
+    toolVersion = '3.6.0'
+    configFile = file('config/codenarc/rules.xml')
+    ignoreFailures = false
+    maxPriority1Violations = 0
+    maxPriority2Violations = 0
+    maxPriority3Violations = 0
+}
+
+tasks.named('codenarcMain') {
+    source = fileTree('vars') {
+        include '**/*.groovy'
+    }
+
+    reports {
+        html.required = true
+        html.outputLocation = layout.buildDirectory.file(
+            'reports/codenarc/main.html'
+        )
+
+        text.required = true
+        text.outputLocation = layout.buildDirectory.file(
+            'reports/codenarc/main.txt'
+        )
+    }
+}

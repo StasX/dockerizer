@@ -1,0 +1,60 @@
+name: main-workflow
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "vars/**/*.groovy"
+      - "src/**/*.groovy"
+      - "config/codenarc/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - ".github/workflows/codenarc.yml"
+
+  pull_request:
+    paths:
+      - "vars/**/*.groovy"
+      - "src/**/*.groovy"
+      - "config/codenarc/**"
+      - "build.gradle"
+      - "settings.gradle"
+      - ".github/workflows/codenarc.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codenarc:
+    name: Run CodeNarc
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x gradlew
+
+      - name: Run CodeNarc
+        run: ./gradlew codenarcMain --no-daemon
+
+      - name: Upload CodeNarc report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: codenarc-report
+          path: build/reports/codenarc/
+          if-no-files-found: warn
+          retention-days: 14
