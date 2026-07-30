@@ -1,10 +1,10 @@
 def buildImage(
     String image,
-    String version='latest',
-    String envName=''
+    String version = 'latest',
+    String envName = ''
 ){
     echo 'Building docker image...'
-    if(!envName){
+    if(!envName) {
         sh "docker build -t docker.io/${image}:${version} ."
         return 0
     }
@@ -13,14 +13,14 @@ def buildImage(
 
 def tag(
     String image,
-    String version="latest",
-    String envName=''
+    String version = "latest",
+    String envName = ''
 ){
-    if (version == 'latest'){
+    if (version == 'latest') {
         return 0
     }
     echo 'Tagging docker image...'
-    if(!envName){
+    if(!envName) {
         sh """
         docker tag \
         docker.io/${image}:${version} \
@@ -60,11 +60,11 @@ def login(){
 
 def push(
     String image,
-    String version='latest',
-    String envName=''
+    String version = 'latest',
+    String envName = ''
 ){
     echo 'Pushing docker image to registry...'
-    if(!envName){
+    if(!envName) {
         if (version != 'latest'){
             sh "docker push docker.io/${image}:${version}"
             return 0
