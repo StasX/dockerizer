@@ -42,3 +42,4 @@
 
     <!-- Security-related checks -->
     <ruleset-ref path="rulesets/security.xml"/>
+</ruleset>
