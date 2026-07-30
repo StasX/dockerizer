@@ -1,4 +1,4 @@
-def build(
+def buildImage(
     String image,
     String version='latest',
     String envName=''
@@ -37,8 +37,24 @@ def tag(
 
 def login(){
     echo 'Logging in to Docker registry...'
-    withCredentials([usernamePassword(credentialsId: "dockerhub-creds", usernameVariable: "DOCKERHUB_USERNAME", passwordVariable: "DOCKERHUB_PASSWORD")]) {
-        sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD} docker.io"
+    withCredentials([
+        usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKERHUB_USERNAME',
+            passwordVariable: 'DOCKERHUB_PASSWORD'
+        )
+    ]) {
+        withEnv([
+            "DOCKER_USERNAME=${DOCKERHUB_USERNAME}",
+            "DOCKER_PASSWORD=${DOCKERHUB_PASSWORD}"
+        ]) {
+            sh '''
+            echo "$DOCKER_PASSWORD" | \
+            docker login \
+            --username "$DOCKER_USERNAME" \
+            --password-stdin
+            '''
+        }
     }
 }
 
@@ -61,4 +77,3 @@ def push(
     docker push  docker.io/${image}:latest-${envName}
     """
 }
-              
