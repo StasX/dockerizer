@@ -27,12 +27,13 @@
     </ruleset-ref>
 
     <!-- Naming conventions -->
-    <ruleset-ref path="rulesets/naming.xml"/>
+    <ruleset-ref path="rulesets/naming.xml">
+        <exclude name="FactoryMethodName"/>
+    </ruleset-ref>
 
-    <!-- General conventions -->
+    <!-- Jenkins vars methods commonly use def -->
     <ruleset-ref path="rulesets/convention.xml">
-        <exclude name="MethodReturnType"/>
-        <exclude name="FieldTypeRequired"/>
+        <exclude name="MethodReturnTypeRequired"/>
     </ruleset-ref>
 
     <!-- Formatting -->
@@ -48,6 +49,8 @@
 
     <!-- Complexity and method size -->
     <ruleset-ref path="rulesets/size.xml">
+        <exclude name="CrapMetric"/>
+
         <rule-config name="MethodSize">
             <property name="maxLines" value="40"/>
         </rule-config>
