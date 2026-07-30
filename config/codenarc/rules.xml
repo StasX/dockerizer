@@ -40,6 +40,5 @@
         </rule-config>
     </ruleset-ref>
 
-
     <!-- Security-related checks -->
     <ruleset-ref path="rulesets/security.xml"/>
