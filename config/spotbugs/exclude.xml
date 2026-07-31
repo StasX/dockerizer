@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <FindBugsFilter>
+    <!-- Jenkins global variable generated from vars/dockerizer.groovy. -->
     <Match>
-        <Field name="__$stMC"/>
-        <Bug pattern="MS_SHOULD_BE_FINAL"/>
+        <Class name="dockerizer"/>
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
+    </Match>
+
+    <!-- Groovy-generated closure class. -->
+    <Match>
+        <Class name="~dockerizer\$_.*"/>
+        <Bug pattern="SE_NO_SERIALVERSIONID"/>
+    </Match>
+
+    <!-- Groovy-generated metaclass field inside the closure class. -->
+    <Match>
+        <Class name="~dockerizer\$_.*"/>
+        <Field name="__\$stMC"/>
+        <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED"/>
     </Match>
 </FindBugsFilter>
