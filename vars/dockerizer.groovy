@@ -3,11 +3,11 @@ def buildImage(
     String version = 'latest',
     String envName = ''
 ) {
-    echo 'Building docker image...'
+    echo 'Building Docker image...'
 
     if (!envName) {
         sh "docker build -t docker.io/${image}:${version} ."
-        return 0
+        return
     }
 
     sh "docker build -t docker.io/${image}:${version}-${envName} ."
@@ -19,24 +19,24 @@ def tag(
     String envName = ''
 ) {
     if (version == 'latest') {
-        return 0
+        return
     }
 
-    echo 'Tagging docker image...'
+    echo 'Tagging Docker image...'
 
     if (!envName) {
         sh """
-        docker tag \
-        docker.io/${image}:${version} \
-        docker.io/${image}:latest
+            docker tag \
+                docker.io/${image}:${version} \
+                docker.io/${image}:latest
         """
-        return 0
+        return
     }
 
     sh """
-    docker tag \
-    docker.io/${image}:${version}-${envName} \
-    docker.io/${image}:latest-${envName}
+        docker tag \
+            docker.io/${image}:${version}-${envName} \
+            docker.io/${image}:latest-${envName}
     """
 }
 
@@ -50,17 +50,12 @@ def login() {
             passwordVariable:'DOCKERHUB_PASSWORD'
         )
     ]) {
-        withEnv([
-            "DOCKER_USERNAME=${DOCKERHUB_USERNAME}",
-            "DOCKER_PASSWORD=${DOCKERHUB_PASSWORD}"
-        ]) {
-            sh '''
-            echo "$DOCKER_PASSWORD" | \
-            docker login \
-            --username "$DOCKER_USERNAME" \
-            --password-stdin
-            '''
-        }
+        sh '''
+            echo "$DOCKERHUB_PASSWORD" | \
+                docker login \
+                --username "$DOCKERHUB_USERNAME" \
+                --password-stdin
+        '''
     }
 }
 
@@ -69,7 +64,7 @@ def push(
     String version = 'latest',
     String envName = ''
 ) {
-    echo 'Pushing docker image to registry...'
+    echo 'Pushing Docker image to registry...'
 
     if (!envName) {
         if (version != 'latest') {
@@ -77,11 +72,11 @@ def push(
         }
 
         sh "docker push docker.io/${image}:latest"
-        return 0
+        return
     }
 
     sh """
-    docker push docker.io/${image}:${version}-${envName}
-    docker push docker.io/${image}:latest-${envName}
+        docker push docker.io/${image}:${version}-${envName}
+        docker push docker.io/${image}:latest-${envName}
     """
 }
