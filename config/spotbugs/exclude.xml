@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
-    <!-- Jenkins global variable generated from vars/dockerizer.groovy. -->
+    <!--
+        Jenkins Shared Library global variable:
+        vars/dockerizer.groovy is compiled as class dockerizer.
+    -->
     <Match>
         <Class name="dockerizer"/>
         <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
     </Match>
 
-    <!-- Groovy-generated closure class. -->
+    <!--
+        Groovy compiler-generated __$stMC field in both the main script
+        class and generated closure classes.
+    -->
     <Match>
-        <Class name="~dockerizer\$_.*"/>
-        <Bug pattern="SE_NO_SERIALVERSIONID"/>
+        <Field name="__$stMC"/>
+        <Bug pattern="MS_SHOULD_BE_FINAL"/>
     </Match>
 
-    <!-- Groovy-generated metaclass field inside the closure class. -->
+    <!-- Groovy-generated closure serialization warning. -->
     <Match>
-        <Class name="~dockerizer\$_.*"/>
-        <Field name="__\$stMC"/>
+        <Class name="~.*\$_.*"/>
+        <Field name="__$stMC"/>
         <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED"/>
+    </Match>
+
+    <!-- Groovy-generated closure classes. -->
+    <Match>
+        <Class name="~.*\$_.*"/>
+        <Bug pattern="SE_NO_SERIALVERSIONID"/>
     </Match>
 </FindBugsFilter>
