@@ -8,6 +8,7 @@ on:
       - "vars/**/*.groovy"
       - "src/**/*.groovy"
       - "config/codenarc/**"
+      - "config/spotbugs/**"
       - "build.gradle"
       - "settings.gradle"
       - ".github/workflows/main.yml"
@@ -17,9 +18,10 @@ on:
       - "vars/**/*.groovy"
       - "src/**/*.groovy"
       - "config/codenarc/**"
+      - "config/spotbugs/**"
       - "build.gradle"
       - "settings.gradle"
-      - ".github/workflows/codenarc.yml"
+      - ".github/workflows/main.yml"
 
   workflow_dispatch:
 
@@ -27,8 +29,8 @@ permissions:
   contents: read
 
 jobs:
-  codenarc:
-    name: Run CodeNarc
+  quality:
+    name: Run CodeNarc and SpotBugs
     runs-on: ubuntu-latest
 
     steps:
@@ -46,8 +48,8 @@ jobs:
         with:
           gradle-version: "9.1.0"
 
-      - name: Run CodeNarc
-        run: gradle codenarcMain --no-daemon
+      - name: Run CodeNarc and SpotBugs
+        run: gradle codenarcMain spotbugsMain --continue --no-daemon
 
       - name: Upload CodeNarc report
         if: always()
@@ -55,5 +57,14 @@ jobs:
         with:
           name: codenarc-report
           path: build/reports/codenarc/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload SpotBugs report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: spotbugs-report
+          path: build/reports/spotbugs/
           if-no-files-found: warn
           retention-days: 14

@@ -1,6 +1,11 @@
+import com.github.spotbugs.snom.Confidence
+import com.github.spotbugs.snom.Effort
+import com.github.spotbugs.snom.SpotBugsTask
+
 plugins {
     id 'groovy'
     id 'codenarc'
+    id 'com.github.spotbugs' version '6.5.9'
 }
 
 repositories {
@@ -42,6 +47,31 @@ tasks.named('codenarcMain') {
         text.required = true
         text.outputLocation = layout.buildDirectory.file(
             'reports/codenarc/main.txt'
+        )
+    }
+}
+
+spotbugs {
+    ignoreFailures = false
+    showStackTraces = true
+    showProgress = true
+
+    effort = Effort.valueOf('MAX')
+    reportLevel = Confidence.valueOf('LOW')
+
+    excludeFilter = file('config/spotbugs/exclude.xml')
+}
+
+tasks.named('spotbugsMain', SpotBugsTask) {
+    reports {
+        html.required = true
+        html.outputLocation = layout.buildDirectory.file(
+            'reports/spotbugs/main.html'
+        )
+
+        xml.required = true
+        xml.outputLocation = layout.buildDirectory.file(
+            'reports/spotbugs/main.xml'
         )
     }
 }
