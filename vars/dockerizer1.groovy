@@ -100,4 +100,3 @@ private void validateArguments(String image, String version, String envName) {
         throw new IllegalArgumentException('environment-qualified Docker tags must not exceed 128 characters')
     }
 }
-
