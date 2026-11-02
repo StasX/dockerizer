@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FindBugsFilter>
 
+    <!-- Jenkins global variable scripts use lower camel case filenames. -->
+    <Match>
+        <Class name="dockerizer"/>
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION"/>
+    </Match>
+
+    <!-- Groovy dynamic calls from buildImage, tag and push invoke this method. -->
+    <Match>
+        <Class name="dockerizer"/>
+        <Method name="validateArguments" params="java.lang.String,java.lang.String,java.lang.String" returns="void"/>
+        <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD"/>
+    </Match>
+
     <!--
         Groovy compiler-generated __$stMC field in both the main script
         class and generated closure classes.
