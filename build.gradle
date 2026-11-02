@@ -24,6 +24,21 @@ sourceSets {
     }
 }
 
+tasks.register('securityTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs Dockerizer argument validation and shell injection regression tests.'
+    classpath = configurations.runtimeClasspath
+    mainClass = 'groovy.ui.GroovyMain'
+    args 'tests/DockerizerSecurityTest.groovy'
+    workingDir = projectDir
+    inputs.files(fileTree('vars') { include '**/*.groovy' })
+    inputs.file('tests/DockerizerSecurityTest.groovy')
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('securityTest')
+}
+
 codenarc {
     toolVersion = '3.6.0'
     configFile = file('config/codenarc/rules.xml')
